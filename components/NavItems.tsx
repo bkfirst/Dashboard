@@ -1,8 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link, NavLink } from 'react-router'
 import { sidebarItems } from '~/constants/'
+import { cn } from '~/lib/utils'
+
 
 const NavItems = () => {
+  const user = {
+    name: 'Bob',
+    email: 'bob@gmail.com',
+    imageURL: '/assests/images.david.webp'
+  }
+
+
   return (
     <section className="nav-items">
                 <Link to="/" className='link-logo'>
@@ -14,11 +23,27 @@ const NavItems = () => {
                 <div className="container">
                     <nav>
                         {sidebarItems.map(({id, label, href, icon}) => (
-                            <div>
-                                {label}
-                            </div>
+                            <NavLink to={href} key={id}>
+                                {({isActive}: {isActive: boolean}) => (
+                                  <div className={cn('group nav-item', {
+                                    'bg-primary-100 !text-white': isActive
+                                  }
+                                  )}>
+                                    <img src={icon} alt={label} className={`group-hover:brightness-0 size-0 group-hover:invert ${isActive ? 'brightness=0 invert' : 'text-dark-200'}`}/>
+                                    {label}
+                                  </div>
+                                )}
+                            </NavLink>
                         ))}
                     </nav>
+
+                    <footer className='nav-footer'>
+                      <img src={user?.imageURL || '/assests/images/david.webp'} alt={user?.name || 'bob'}/>
+                      <article>
+                        <h2>{user?.name}</h2>
+                        <p>{user?.email}</p>
+                      </article>
+                    </footer>
                 </div>
 
     </section>
